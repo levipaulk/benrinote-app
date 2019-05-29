@@ -15,17 +15,17 @@ export default class Header extends Component {
     return (
       <div className='Header__logged-in'>
         <Link
-          onClick={this.handleLogoutClick}
-          to='/'>
-          Logout
-        </Link>
-        <Link
           to='/publications'>
           Publications
         </Link>
         <Link
           to='/notes'>
           My Notes
+        </Link>
+        <Link
+          onClick={this.handleLogoutClick}
+          to='/'>
+          Logout
         </Link>
       </div>
     )
@@ -48,18 +48,16 @@ export default class Header extends Component {
 
   render() {
     return <>
-      <nav className='Header'>
-        <h1>
+      <nav className='Header' role='navigation'>
+        <h3>
           <Link to='/'>
             BenriNote
           </Link>
-        </h1>
+        </h3>
         {TokenService.hasAuthToken()
           ? this.renderLogoutLink()
           : this.renderLoginLink()}
       </nav>
-
-      <span className='Header__tagline--narrow'>Rate all the things.</span>
     </>
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 import PrivateRoute from '../Utils/PrivateRoute';
 import PublicOnlyRoute from '../Utils/PublicOnlyRoute';
 import LoginPage from '../../Routes/LoginPage/LoginPage';
@@ -14,6 +15,38 @@ import NotFoundPage from '../../Routes/NotFoundPage/NotFoundPage';
 import './App.css';
 
 class App extends React.Component {
+  Users = [
+    {
+      id: 1,
+      name: 'bob1',
+      full_name: 'bob Example_1',
+      password: 'abc123',
+      nickname: 'bob',
+      date_created: '5/29/2019',
+      date_modified: '5/29/2019'
+    },
+    {
+      id: 2,
+      name: 'bob2',
+      full_name: 'bob Example_2',
+      password: 'abc123',
+      nickname: 'bobby',
+      date_created: '5/29/2019',
+      date_modified: '5/29/2019'
+    },
+    {
+      id: 3,
+      name: 'bob3',
+      full_name: 'bob Example_3',
+      password: 'abc123',
+      nickname: 'bobert',
+      date_created: '5/29/2019',
+      date_modified: '5/29/2019'
+    },
+  ]
+
+  
+
   state = { hasError: false }
 
   static getDerivedStateFromError(error) {
@@ -64,6 +97,9 @@ class App extends React.Component {
             />
           </Switch>
         </main>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     )
   }

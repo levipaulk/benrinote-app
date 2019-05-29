@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "alias": "levi-benrinote-app",
+    "name": "benrinote-app",
+    "routes": [
+        {
+            "src": "^/static/(.*)",
+            "dest": "/static/$1"
+        },
+        {
+            "src": ".*",
+            "dest": "/index.html"
+        }
+    ]
+}

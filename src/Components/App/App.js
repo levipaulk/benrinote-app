@@ -54,12 +54,22 @@ class App extends React.Component {
     return { hasError: true }
   }
 
+  handleOk = () => {
+    return fetch(`http://localhost:8000/api/`)
+      .then(res =>
+        (!res.ok)
+          ? res.json().then(e => Promise.reject(e))
+          : res.json()
+      )
+  }
+
   render() {
     return (
       <div className='App'>
         <header>
           <Header />
         </header>
+        <button onClick={() => this.handleOk()}>OK?</button>
         <main className='App_main'>
           {this.state.hasError && <p className='red'>There was an error! Oh no!</p>}
           <Switch>
@@ -97,9 +107,7 @@ class App extends React.Component {
             />
           </Switch>
         </main>
-        <footer>
-          <Footer />
-        </footer>
+        <Footer />
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
-class ListOfCompiledNotes extends Component {
+class Dashboard extends Component {
 
   user = {
     id: 2,
@@ -44,18 +45,25 @@ class ListOfCompiledNotes extends Component {
   ]
 
   render() {
-    const publicationList = this.publications.map((publication) => {
+    const { user, userpub } = this.props
+    const publicationList = userpub.map((pub) => {
       return (
         <section>
-          <h3>{publication.title}</h3>
-          <img src={publication.cover} alt={`${publication.title}'s Cover`}/>
+          <Link to={`/publications/${pub.pub_id}`}>
+            <h3>{pub.title}</h3>
+            <img src={pub.cover} alt={`${pub.title}'s Cover`}/>
+          </Link>
+          <Link to={`/dashboard/${pub.pub_id}`}>
+            <h4>Notes</h4>
+          </Link>
+          <button onClick={() => this.props.deleteUserPub(pub.pub_id)}>DELETE NOTES</button>
         </section>
       )
     })
     return (
-      <div className='landing-wrapper'>
+      <div className='dashboard-wrapper'>
         <header role='banner'>
-          <h1>{`${this.user.nickname}'s Notes`}</h1>
+          <h1>{user.nickname ? `${user.nickname}'s Notes` : `${user.user_name}'s Notes`}</h1>
         </header>
         {publicationList}
       </div>
@@ -63,4 +71,4 @@ class ListOfCompiledNotes extends Component {
   }
 }
   
-export default ListOfCompiledNotes;
+export default Dashboard;

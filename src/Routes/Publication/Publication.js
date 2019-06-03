@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 class Publication extends Component {
 
@@ -90,7 +91,6 @@ class Publication extends Component {
   ]
 
   render() {
-    const publication = this.publication
     const authors = this.authors.map((author) => {
       return (
         <span>`${author.name} `</span>
@@ -105,9 +105,14 @@ class Publication extends Component {
           <div className="section-content-wrapper">
             <p>{section.content}</p>
           </div>
-          <div>
-            <button>notes</button>
-            <textarea rows="4" cols="50">{this.notes.filter(note => note.sec_id === section.id).text}</textarea>
+          <div className="notes-wrapper">
+            <button>Notes</button>
+            <div className="notes-collapseable">
+              <Link to={`/users/${this.user.id}/dashboard/${this.publication.id}`}>
+                All Notes for {this.publication.title}
+              </Link>
+              <textarea rows="4" cols="50">{this.notes.filter(note => note.sec_id === section.id).text}</textarea>
+            </div>
           </div>
         </section>
       )
@@ -115,8 +120,8 @@ class Publication extends Component {
     return (
       <div className='landing-wrapper'>
         <header role='banner'>
-          <h1>{publication.title}</h1>
-          <img src={publication.cover} alt={`${publication.title}'s Cover`}/>
+          <h1>{this.publication.title}</h1>
+          <img src={this.publication.cover} alt={`${this.publication.title}'s Cover`}/>
           <div>{authors}</div>
         </header>
         {sections}

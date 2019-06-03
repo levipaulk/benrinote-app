@@ -3,9 +3,9 @@ import AuthApiService from '../../services/auth-api-service'
 import { Button, Input } from '../Utils/Utils'
 
 export default class LoginForm extends Component {
-  static defaultProps = {
-    onLoginSuccess: () => {}
-  }
+  // static defaultProps = {
+  //   onLoginSuccess: () => {}
+  // }
 
   state = { error: null }
 
@@ -15,7 +15,7 @@ export default class LoginForm extends Component {
     const { user_name, password } = ev.target
 
     AuthApiService.postLogin({
-      name: user_name.value,
+      user_name: user_name.value,
       password: password.value,
     })
       .then(res => {

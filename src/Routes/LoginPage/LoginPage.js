@@ -3,17 +3,17 @@ import LoginForm from '../../Components/LoginForm/LoginForm';
 
 class LoginPage extends Component {
 
-  static defaultProps = {
-    location: {},
-    history: {
-      push: () => {},
-    },
-  }
+  // static defaultProps = {
+  //   location: {},
+  //   history: {
+  //     push: () => {},
+  //   },
+  // }
 
   handleLoginSuccess = () => {
-    const { location, history } = this.props
-    const destination = (location.state || {}).from || '/'
-    history.push(destination)
+    // const destination = (location.state || {}).from || '/'
+    this.props.getUserInfo() 
+      .then(() => this.props.history.push('/'))
   }
 
   render() {
@@ -23,7 +23,7 @@ class LoginPage extends Component {
           <h1>Login</h1>
         </header>
         <LoginForm 
-          onLoginSuccess={this.handleLoginSuccess}
+          onLoginSuccess={() => this.handleLoginSuccess()}
         />
       </div>
     )

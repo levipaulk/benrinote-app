@@ -1,75 +1,154 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import PrivateRoute from '../Utils/PrivateRoute';
-import PublicOnlyRoute from '../Utils/PublicOnlyRoute';
 import LoginPage from '../../Routes/LoginPage/LoginPage';
 import SignUpPage from '../../Routes/SignUpPage/SignUpPage';
 import Landing from '../../Routes/Landing/Landing';
-import ListOfCompiledNotes from '../../Routes/ListOfCompiledNotes/ListOfCompiledNotes';
+import Dashboard from '../../Routes/Dashboard/Dashboard';
 import ListOfPublications from '../../Routes/ListOfPublications/ListOfPublications';
 import Publication from '../../Routes/Publication/Publication';
 import CompiledNotes from '../../Routes/CompiledNotes/CompiledNotes';
 import NotFoundPage from '../../Routes/NotFoundPage/NotFoundPage';
+import TokenService from '../../services/token-service';
+import AuthApiService from '../../services/auth-api-service';
+import IdleService from '../../services/idle-service';
+import UserPubApiService from '../../services/user-pub-api-service';
+import PublicationApiService from '../../services/pub-api-service';
+// import NoteApiService from '../../services/note-api-service';
 import './App.css';
 
 class App extends React.Component {
-  Users = [
-    {
-      id: 1,
-      name: 'bob1',
-      full_name: 'bob Example_1',
-      password: 'abc123',
-      nickname: 'bob',
-      date_created: '5/29/2019',
-      date_modified: '5/29/2019'
-    },
-    {
-      id: 2,
-      name: 'bob2',
-      full_name: 'bob Example_2',
-      password: 'abc123',
-      nickname: 'bobby',
-      date_created: '5/29/2019',
-      date_modified: '5/29/2019'
-    },
-    {
-      id: 3,
-      name: 'bob3',
-      full_name: 'bob Example_3',
-      password: 'abc123',
-      nickname: 'bobert',
-      date_created: '5/29/2019',
-      date_modified: '5/29/2019'
-    },
-  ]
 
-  
+  state = { 
+    hasError: false,
+    error: null,
+    user: {
+      // user_name: '',
+      // nickname: '',
+      // type: ''
+    },
+    userpub: [
+      // {pub_id: 1, date_created: '5/31/2019', title: 'Publication 1', cover: 'url'},
+      // {pub_id: 2, date_created: '6/1/2019', title: 'Publication 2', cover: 'url'}
+    ],
+    publications: [
+      // {id: 1, title: 'Publication 1', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'},
+      // {id: 2, title: 'Publication 2', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'},
+      // {id: 3, title: 'Publication 3', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'}
+    ],
+    sections: [
+      // {id, pub_id: 1, section: 1, title: 'first section', text: '...Stuff'},
+      // {id, pub_id: 1, section: 2, title: 'second section', text: '...Stuff'},
+      // {id, pub_id: 2, section: 1, title: 'first section', text: '...Stuff'},
+    ],
+    notes: [
+      // {id: 1, pub_id: 1, sec_id: 1, title: 'first section', text: 'These are my notes, lalalalaalalalalala'},
+      // {id: 2, pub_id: 1, sec_id: 2, title: 'second section', text: 'These are my notes, lalalalaalalalalala'},
+      // {id: 3, pub_id: 2, sec_id: 1, title: 'first section', text: 'These are my notes, lalalalaalalalalala'}
+    ]
+  }
 
-  state = { hasError: false }
+  setError = error => {
+    console.error(error)
+    this.setState({ error })
+  }
+  clearError = () => {
+    this.setState({ error: null })
+  }
+  setUser = user => {
+    this.setState({ user })
+  }
+  setUserPub = userpub => {
+    this.setState({ userpub })
+  }
+  setPublications = publications => {
+    this.setState({ publications })
+  }
+  setSections = sections => {
+    this.setState({ sections })
+  }
+  setNotes = notes => {
+    this.setState({ notes })
+  }
+  clearPublications = () => {
+    this.setPublications([])
+  }
+  clearSections = () => {
+    this.setSections([])
+  }
+  clearNotes = () => {
+    this.setNotes([])
+  }
+  clearUser = () => {
+    this.setUser({})
+    this.clearPublications()
+    this.setUserPub([])
+    this.clearSections()
+    this.clearNotes()
+  }
 
   static getDerivedStateFromError(error) {
     console.error(error)
     return { hasError: true }
   }
 
-  handleOk = () => {
-    return fetch(`http://localhost:8000/api/`)
-      .then(res =>
-        (!res.ok)
-          ? res.json().then(e => Promise.reject(e))
-          : res.json()
-      )
+  componentDidMount() {
+    IdleService.setIdleCallback(this.logoutFromIdle)
+
+    if (TokenService.hasAuthToken()) {
+      IdleService.registerIdleTimerResets()
+      TokenService.queueCallbackBeforeExpiry(() => {
+        AuthApiService.postRefreshToken()
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    IdleService.unRegisterIdleResets()
+    TokenService.clearCallbackBeforeExpiry()
+  }
+
+  logoutFromIdle = () => {
+    TokenService.clearAuthToken()
+    TokenService.clearCallbackBeforeExpiry()
+    IdleService.unRegisterIdleResets()
+    this.forceUpdate()
+  }
+
+  getUserInfo = () => {
+    UserPubApiService.getUserInfo()
+      .then(user => this.setUser(user))
+      .then(() => this.getUserPub())
+  }
+
+  getUserPub = () => {
+    console.log('getUserPub ran from app.js')
+    UserPubApiService.getUserPublications()
+      .then(userpub => {
+        console.log(userpub)
+        this.setUserPub(userpub)
+      })
+  }
+
+  addUserPub = (pubId) => {
+    UserPubApiService.postUserPublications(pubId)
+      .then(() => this.getUserPub())
+  }
+
+  deleteUserPub = (pubId) => {
+    UserPubApiService.deleteUserPublications(pubId)
+      .then(() => this.getUserPub())
   }
 
   render() {
     return (
       <div className='App'>
         <header>
-          <Header />
+          <Header 
+            clearUser={this.clearUser}
+          />
         </header>
-        <button onClick={() => this.handleOk()}>OK?</button>
         <main className='App_main'>
           {this.state.hasError && <p className='red'>There was an error! Oh no!</p>}
           <Switch>
@@ -77,30 +156,81 @@ class App extends React.Component {
               exact
               path={'/'}
               component={Landing}
+              clearError={this.clearError}
             />
-            <PublicOnlyRoute 
+            <Route 
               path={'/login'}
-              component={LoginPage}
+              render={() => TokenService.hasAuthToken()
+                ? <Redirect to={'/'} />
+                : <LoginPage 
+                    getUserInfo={this.getUserInfo} 
+                  />
+              }
             />
-            <PublicOnlyRoute 
+            <Route 
               path={'/register'}
-              component={SignUpPage}
+              render={() => TokenService.hasAuthToken()
+                ? <Redirect to={'/'} />
+                : <SignUpPage />
+              }
             />
-            <PrivateRoute 
+            <Route 
               path={'/publications'}
-              component={ListOfPublications}
+              render={() => TokenService.hasAuthToken()
+                ? <ListOfPublications 
+                    error={this.state.error} 
+                    setError={this.setError} 
+                    clearError={this.clearError}
+                    getPublications={PublicationApiService.getPublications}
+                    setPublications={this.setPublications}
+                    clearPublications={this.clearPublications}
+                    addUserPub={this.addUserPub}
+                    publications={this.state.publications}
+                    userpub={this.state.userpub}
+                  />
+                : <Redirect to={'/login'} /> 
+              }
             />
-            <PrivateRoute 
-              path={'/publications/:publicationId'}
-              component={Publication}
+            <Route 
+              path={'/publications/:publication'}
+              render={() => TokenService.hasAuthToken()
+                ? <Publication 
+                    error={this.state.error} 
+                    setError={this.setError} 
+                    clearError={this.clearError}
+                    userpub={this.state.userpub}
+                    sections={this.state.sections}
+                    notes={this.state.notes}
+                  />
+                : <Redirect to={'/login'} /> 
+              }
             />
-            <PrivateRoute 
-              path={'users/:user/notes'}
-              component={ListOfCompiledNotes}
+            <Route 
+              path={'/dashboard'}
+              render={() => TokenService.hasAuthToken()
+                ? <Dashboard 
+                    error={this.state.error} 
+                    setError={this.setError} 
+                    clearError={this.clearError}
+                    user={this.state.user}
+                    userpub={this.state.userpub}
+                    deleteUserPub={this.state.deleteUserPub}
+                  />
+                : <Redirect to={'/login'} /> 
+              }
             />
-            <PrivateRoute 
-              path={'users/:user/notes/:note'}
-              component={CompiledNotes}
+            <Route 
+              path={'/dashboard/:pubId'}
+              render={() => TokenService.hasAuthToken()
+                ? <CompiledNotes 
+                    error={this.state.error} 
+                    setError={this.setError} 
+                    clearError={this.clearError}
+                    userpub={this.state.userpub}
+                    notes={this.state.notes}
+                  />
+                : <Redirect to={'/login'} /> 
+              }
             />
             <Route 
               component={NotFoundPage}

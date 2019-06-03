@@ -3,8 +3,20 @@ import IdleService from './idle-service'
 import config from '../config'
 
 const AuthApiService = {
+  getUser() {
+    return fetch(`${config.API_BASE_URL}/users`, {
+      headers: {
+        'authorization': `bearer ${TokenService.getAuthToken()}`
+      },
+    })
+      .then(res =>
+        (!res.ok)
+          ? res.json().then(e => Promise.reject(e))
+          : res.json()
+      )
+  },
   postUser(user) {
-    return fetch(`${config.API_ENDPOINT}/users`, {
+    return fetch(`${config.API_BASE_URL}/users`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -18,7 +30,7 @@ const AuthApiService = {
       )
   },
   postLogin(credentials) {
-    return fetch(`${config.API_ENDPOINT}/auth/login`, {
+    return fetch(`${config.API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -40,7 +52,7 @@ const AuthApiService = {
       })
   },
   postRefreshToken() {
-    return fetch(`${config.API_ENDPOINT}/auth/refresh`, {
+    return fetch(`${config.API_BASE_URL}/auth/refresh`, {
       method: 'POST',
       headers: {
         'authorization': `Bearer ${TokenService.getAuthToken()}`,

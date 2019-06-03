@@ -9,6 +9,7 @@ export default class Header extends Component {
     TokenService.clearAuthToken()
     TokenService.clearCallbackBeforeExpiry()
     IdleService.unRegisterIdleResets()
+    this.props.clearUser()
   }
 
   renderLogoutLink() {
@@ -19,8 +20,8 @@ export default class Header extends Component {
           Publications
         </Link>
         <Link
-          to='/notes'>
-          My Notes
+          to='/dashboard'>
+          My Dashboard
         </Link>
         <Link
           onClick={this.handleLogoutClick}

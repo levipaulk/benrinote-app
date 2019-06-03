@@ -3,26 +3,31 @@ import React, {Component} from 'react';
 class Landing extends Component {
   sections = [
     {
+      id: 1,
       header: 'Take note',
       placeholder: 'placeholder for screenshot of taking notes alongside the reading',
       description: 'BenriNote lets you take notes as you read, all on the same page'
     },
     {
+      id: 2,
       header: 'Stay organized',
       placeholder: 'placeholder for gif demonstrating that notes for a specific section will only display for that section of the reading',
       description: 'BenriNote keeps you organized. As you study, we only display your notes for the current section. No more jumbled, messy notes.'
     },
     {
+      id: 3,
       header: 'Intertwined',
       placeholder: `placeholder for gif demonstrating that clicking on the header of a note's section will link to the related section of the reading`,
       description: 'Finding what your notes are referencing is as easy as one click.'
     },
     {
+      id: 4,
       header: 'Automatic Filing',
       placeholder: 'placeholder for screenshot of notes, ogranized by reading, with dropdown of notes page for each chapter',
       description: 'BenriNote keeps your notes organized by publication and chapte'
     },
     {
+      id: 5,
       header: 'Sharing is Caring',
       placeholder: 'placeholder for screenshot of "share with friends" modal',
       description: 'Share notes with your friends.'
@@ -32,7 +37,7 @@ class Landing extends Component {
   render() {
     const sections = this.sections.map((section) => {
       return (
-        <section>
+        <section key={section.id}>
           <header>
             <h3>{section.header}</h3>
           </header>

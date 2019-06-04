@@ -1,117 +1,65 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
-class Publication extends Component {
 
-  publication = {
-    id: 1,
-    title: 'Textbook 1',
-    cover: 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/book-cover-flyer-template-6bd8f9188465e443a5e161a7d0b3cf33.jpg?ts=1456287935',
-    author_id: 1,
-    publisher_id: 1,
-    summary: 'Synopsis, tore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?'
+class Publication extends React.Component {
+  state = {
+    ready: false
   }
 
-  authors = [
-    {
-      id: 1,
-      name: 'bob',
-      full_name: 'bob',
-      password: 'abc123',
-      nickname: 'bob',
-      type: 'usr',
-      date_created: '5/29/2019',
-      date_modified: '5/29/2019'
-    },
-  ]
-
-  sections = [
-    {
-      id: 1,
-      pub_id: 1,
-      sec: 1,
-      type: 'md',
-      title: 'What is it?',
-      content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`
-    },
-    {
-      id: 2,
-      pub_id: 1,
-      sec: 2,
-      type: 'md',
-      title: 'Why do we use it?',
-      content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`
-    },
-    {
-      id: 3,
-      pub_id: 1,
-      sec: 3,
-      type: 'md',
-      title: 'Who uses it?',
-      content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`
-    }
-  ]
-
-  user = {
-    id: 2,
-    name: 'bobby',
-    full_name: 'bobby',
-    password: 'abc123',
-    nickname: 'bob',
-    type: 'usr',
-    date_created: '5/29/2019',
-    date_modified: '5/29/2019'
+  componentDidMount() {
+    this.props.clearError()
+    let pubId = this.props.match.params.publication
+    pubId = Number(pubId)
+    console.log(pubId, typeof pubId)
+    this.props.activePub && this.props.activePub.id === pubId
+      ? this.handleNotesAndSections()
+      : this.handleActivePub(pubId)
   }
 
-  notes = [
-    {
-      id: 1,
-      user_id: 2,
-      sec_id: 1,
-      date_created: '5/29/2019',
-      date_modified: '5/29/2019',
-      text: 'Example Notes, lalalalalaalalalaalalaalalalaalalaalalalaalala'
-    },
-    {
-      id: 2,
-      user_id: 2,
-      sec_id: 2,
-      date_created: '5/29/2019',
-      date_modified: '5/29/2019',
-      text: 'Example Notes, lalalalalaalalalaalalaalalalaalalaalalalaalala'
-    },
-    {
-      id: 3,
-      user_id: 2,
-      sec_id: 3,
-      date_created: '5/29/2019',
-      date_modified: '5/29/2019',
-      text: 'Example Notes, lalalalalaalalalaalalaalalalaalalaalalalaalala'
-    },
-  ]
+  handleActivePub = (pubId) => {
+    console.log('handleActivePub ran with pubId ', pubId)
+    debugger;
+    this.props.getActivePub(pubId)
+      .then((activePub) => {
+        console.log(`Active Publication is `, activePub)
+      })
+      .catch(e => console.error(e))
+  }
 
-  render() {
-    const authors = this.authors.map((author) => {
-      return (
-        <span>`${author.name} `</span>
-      )
-    })
-    const sections = this.sections.map((section) => {
+  handleNotesAndSections = () => {
+    console.log('handleNotesAndSections ran')
+    // Promise.all([this.props.getNotes(), this.props.getSections()])
+    //       .then((res) => this.setState({ ready: true }))
+    //       .catch(e => console.error(e))
+  }
+
+  componenetWillUnmount() {
+    this.setState({ ready: false })
+    this.props.setNotes([])
+    this.props.setSections([])
+  }
+
+  handleRender() {
+    const sections = this.props.sections.map((section) => {
+      const note = this.props.notes.filter(n => n.section === section.section)
+      console.log(note)
       return (
         <section>
           <header role="banner">
             <h3>{section.title}</h3>
           </header>
           <div className="section-content-wrapper">
-            <p>{section.content}</p>
+            <p>{section.text}</p>
           </div>
           <div className="notes-wrapper">
             <button>Notes</button>
             <div className="notes-collapseable">
-              <Link to={`/users/${this.user.id}/dashboard/${this.publication.id}`}>
-                All Notes for {this.publication.title}
+              <Link to={`/dashboard/${this.section.pub_id}`}>
+                All Notes
               </Link>
-              <textarea rows="4" cols="50">{this.notes.filter(note => note.sec_id === section.id).text}</textarea>
+              <textarea rows="4" cols="50">{note.text}</textarea>
             </div>
           </div>
         </section>
@@ -120,14 +68,25 @@ class Publication extends Component {
     return (
       <div className='landing-wrapper'>
         <header role='banner'>
-          <h1>{this.publication.title}</h1>
-          <img src={this.publication.cover} alt={`${this.publication.title}'s Cover`}/>
-          <div>{authors}</div>
+          <h1>{this.props.activePub.title}</h1>
+          <img src={this.props.activePub.cover} alt={`${this.props.activePub.title}'s Cover`}/>
+          <div>{this.props.activePub.authors}</div>
         </header>
         {sections}
       </div>
     )
   }
+
+  render() {
+    return (
+      <>
+        {this.state.ready
+          ? this.handleRender()
+          : <h1>Loading...</h1>
+        }
+      </>
+    )
+  }
 }
   
-export default Publication;
+export default withRouter(Publication);

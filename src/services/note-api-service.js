@@ -2,8 +2,8 @@ import TokenService from './token-service'
 import config from '../config'
 
 const NoteApiService = {
-  getNotes(pubId) {
-    return fetch(`${config.API_BASE_URL}/notes/${pubId}`, {
+  getNotesByPubId(id) {
+    return fetch(`${config.API_BASE_URL}/notes/publication/${id}`, {
       headers: {
         'authorization': `bearer ${TokenService.getAuthToken()}`
       },
@@ -14,8 +14,8 @@ const NoteApiService = {
           : res.json()
       )
   },
-  // getNote(userId, noteId) {
-  //   return fetch(`${config.API_BASE_URL}/users/${userId}/notes/${noteId}`, {
+  // getNote(id) {
+  //   return fetch(`${config.API_BASE_URL}/users/${userId}/notes/note/${id}`, {
   //     headers: {
   //       'authorization': `bearer ${TokenService.getAuthToken()}`
   //     },
@@ -26,8 +26,8 @@ const NoteApiService = {
   //         : res.json()
   //     )
   // },
-  patchNote(noteId, newNotes) {
-    return fetch(`${config.API_BASE_URL}/notes/${noteId}`, {
+  patchNote(id, newNotes) {
+    return fetch(`${config.API_BASE_URL}/notes/note/${id}`, {
       method: 'PATCH',
       headers: {
         'authorization': `bearer ${TokenService.getAuthToken()}`,

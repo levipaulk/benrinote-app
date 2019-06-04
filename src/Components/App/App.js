@@ -15,7 +15,8 @@ import AuthApiService from '../../services/auth-api-service';
 import IdleService from '../../services/idle-service';
 import UserPubApiService from '../../services/user-pub-api-service';
 import PublicationApiService from '../../services/pub-api-service';
-// import NoteApiService from '../../services/note-api-service';
+import SectionsApiService from '../../services/sec-api-service';
+import NoteApiService from '../../services/note-api-service';
 import './App.css';
 
 class App extends React.Component {
@@ -32,6 +33,7 @@ class App extends React.Component {
       // {pub_id: 1, date_created: '5/31/2019', title: 'Publication 1', cover: 'url'},
       // {pub_id: 2, date_created: '6/1/2019', title: 'Publication 2', cover: 'url'}
     ],
+    activePub: null,
     publications: [
       // {id: 1, title: 'Publication 1', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'},
       // {id: 2, title: 'Publication 2', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'},
@@ -62,6 +64,26 @@ class App extends React.Component {
   setUserPub = userpub => {
     this.setState({ userpub })
   }
+  getActivePub = pubId => {
+    PublicationApiService.getPublication(pubId)
+      .then(activePub => {
+        this.setState({ activePub })
+      })
+      .catch(e => console.error(e))
+  }
+  getNotes = () => {
+    NoteApiService.getNotesByPubId(this.state.activePub.id)
+      .then(notes => this.setState({notes}))
+      .catch(e => console.error(e))
+  }
+  getSections = (id) => {
+    SectionsApiService.getSections(this.state.activePub.id)
+      .then(sections => {
+        console.log(sections)
+        this.setSections(sections)
+      })
+      .catch(e => console.error(e))
+  }
   setPublications = publications => {
     this.setState({ publications })
   }
@@ -71,21 +93,13 @@ class App extends React.Component {
   setNotes = notes => {
     this.setState({ notes })
   }
-  clearPublications = () => {
-    this.setPublications([])
-  }
-  clearSections = () => {
-    this.setSections([])
-  }
-  clearNotes = () => {
-    this.setNotes([])
-  }
   clearUser = () => {
     this.setUser({})
-    this.clearPublications()
+    this.setPublications([])
     this.setUserPub([])
-    this.clearSections()
-    this.clearNotes()
+    this.setSections([])
+    this.setNotes([])
+    this.setState({ activePub: null })
   }
 
   static getDerivedStateFromError(error) {
@@ -147,6 +161,7 @@ class App extends React.Component {
         <header>
           <Header 
             clearUser={this.clearUser}
+            getUserPub={this.getUserPub}
           />
         </header>
         <main className='App_main'>
@@ -175,24 +190,7 @@ class App extends React.Component {
               }
             />
             <Route 
-              path={'/publications'}
-              render={() => TokenService.hasAuthToken()
-                ? <ListOfPublications 
-                    error={this.state.error} 
-                    setError={this.setError} 
-                    clearError={this.clearError}
-                    getPublications={PublicationApiService.getPublications}
-                    setPublications={this.setPublications}
-                    clearPublications={this.clearPublications}
-                    addUserPub={this.addUserPub}
-                    publications={this.state.publications}
-                    userpub={this.state.userpub}
-                  />
-                : <Redirect to={'/login'} /> 
-              }
-            />
-            <Route 
-              path={'/publications/:publication'}
+              path={'/publication/:publication'}
               render={() => TokenService.hasAuthToken()
                 ? <Publication 
                     error={this.state.error} 
@@ -201,20 +199,29 @@ class App extends React.Component {
                     userpub={this.state.userpub}
                     sections={this.state.sections}
                     notes={this.state.notes}
+                    activePub={this.state.activePub}
+                    getActivePub={this.getActivePub}
+                    getNotes={this.getNotes}
+                    setNotes={this.setNotes}
+                    getSections={this.getSections}
+                    setSections={this.setSections}
                   />
                 : <Redirect to={'/login'} /> 
               }
             />
             <Route 
-              path={'/dashboard'}
+              path={'/publications'}
               render={() => TokenService.hasAuthToken()
-                ? <Dashboard 
+                ? <ListOfPublications 
                     error={this.state.error} 
                     setError={this.setError} 
                     clearError={this.clearError}
-                    user={this.state.user}
+                    getPublications={PublicationApiService.getPublications}
+                    setPublications={this.setPublications}
+                    addUserPub={this.addUserPub}
+                    publications={this.state.publications}
                     userpub={this.state.userpub}
-                    deleteUserPub={this.state.deleteUserPub}
+                    getSections={this.state.getSections}
                   />
                 : <Redirect to={'/login'} /> 
               }
@@ -228,6 +235,24 @@ class App extends React.Component {
                     clearError={this.clearError}
                     userpub={this.state.userpub}
                     notes={this.state.notes}
+                    activePub={this.state.activePub}
+                    getActivePub={this.getActivePub}
+                  />
+                : <Redirect to={'/login'} /> 
+              }
+            />
+            <Route 
+              path={'/dashboard'}
+              render={() => TokenService.hasAuthToken()
+                ? <Dashboard 
+                    error={this.state.error} 
+                    setError={this.setError} 
+                    clearError={this.clearError}
+                    user={this.state.user}
+                    userpub={this.state.userpub}
+                    deleteUserPub={this.deleteUserPub}
+                    getUserInfo={this.getUserInfo}
+                    getActivePub={this.getActivePub}
                   />
                 : <Redirect to={'/login'} /> 
               }

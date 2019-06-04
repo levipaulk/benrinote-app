@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PublicationSummary from '../../Components/PublicationSummary/PublicationSummary'
 
 class ListOfPublications extends Component {
-
+  
   componentDidMount() {
     this.props.clearError()
     this.props.getPublications()
@@ -11,18 +11,20 @@ class ListOfPublications extends Component {
   }
 
   componentWillUnmount() {
-    this.props.clearPublications()
+    this.props.setPublications([])
   }
 
   renderPublications() {
     const publications = this.props.publications.map((publication) => {
       return (
         <PublicationSummary 
+          key={publication.id}
           id={publication.id}
           title={publication.title}
           cover={publication.cover}
           summary={publication.summary}
           addUserPub={this.props.addUserPub}
+          userpub={this.props.userpub}
         />
       )
     })
@@ -36,13 +38,21 @@ class ListOfPublications extends Component {
     )
   }
 
+  handleRender() {
+    return (
+      <div className='list-of-publications-wrapper'>
+      {this.props.error 
+        ? <p className='red'>There was an error, try again</p>
+        : this.renderPublications()}
+    </div>
+    )
+  }
+
   render() {
     return(
-      <div className='list-of-publications-wrapper'>
-        {this.props.error 
-          ? <p className='red'>There was an error, try again</p>
-          : this.renderPublications()}
-      </div>
+      <>
+        {this.props.publications[0] ? this.handleRender() : <h1>Loading...</h1>}
+      </>
     )
   }
 }

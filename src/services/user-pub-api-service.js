@@ -27,19 +27,14 @@ const UserPubApiService = {
       )
   },
   postUserPublications(pub_id) {
-    return fetch(`${config.API_BASE_URL}/userpub`, {
+    console.log(pub_id)
+    return fetch(`${config.API_BASE_URL}/userpub/${pub_id}`, {
       method: 'POST',
       headers: {
         'authorization': `bearer ${TokenService.getAuthToken()}`,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({pub_id})
+      }
     })
-      .then(res =>
-        (!res.ok)
-          ? res.json().then(e => Promise.reject(e))
-          : res.json()
-      )
+      .catch(e => Promise.reject(e))
   },
   deleteUserPublications(pub_id) {
     return fetch(`${config.API_BASE_URL}/userpub/${pub_id}`, {
@@ -48,11 +43,7 @@ const UserPubApiService = {
         'authorization': `bearer ${TokenService.getAuthToken()}`
       },
     })
-      .then(res =>
-        (!res.ok)
-          ? res.json().then(e => Promise.reject(e))
-          : res.json()
-      )
+      .catch(e => Promise.reject(e))
   }
 }
 

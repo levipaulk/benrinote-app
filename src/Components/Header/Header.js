@@ -5,6 +5,10 @@ import IdleService from '../../services/idle-service'
 // import './Header.css'
 
 export default class Header extends Component {
+  componentDidMount() {
+    if(TokenService.hasAuthToken()) this.props.getUserPub()
+  }
+
   handleLogoutClick = () => {
     TokenService.clearAuthToken()
     TokenService.clearCallbackBeforeExpiry()

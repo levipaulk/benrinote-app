@@ -4,26 +4,72 @@ import { Link } from 'react-router-dom';
 
 class CompiledNotes extends Component {
 
+  state = {
+    ready: false
+  }
+  
+// =============================================================================
+// Pre-Render checks and fetch requests
+// =============================================================================
+
+  componentWillMount() {
+    let note = JSON.parse(localStorage.getItem('benrinoteBackup'))
+    localStorage.clear()
+    if(note) {this.props.recoverNote(note.id, note.text)}
+  }
+
   componentDidMount() {
     this.props.clearError()
-    let pubId = this.props.location.pathname.slice(11)
+    let pubId = this.props.match.params.pubId
     pubId = Number(pubId)
-    console.log(pubId, typeof pubId)
-    this.props.activePub && this.props.activePub === pubId
-      ? console.log(`activePub is `, this.props.activePub)
-      : this.props.getActivePub(pubId)
-          .catch(e => console.error(e))
+    this.props.activePub && this.props.activePub.id === pubId
+      ? this.handleNotes()
+      : this.handleActivePub(pubId)
+  }
+
+  handleActivePub = (pubId) => {
+    return this.props.getActivePub(pubId)
+      .then((activePub) => {
+        return this.handleNotes();
+      })
+  }
+
+  handleNotes = () => {
+    return this.props.getNotes()
+      .then(() => {
+        return this.setState({ ready: true });
+      })
+  }
+
+// =============================================================================
+// Clean Up
+// =============================================================================
+
+  componenetWillUnmount() {
+    this.setState({ ready: false })
+    this.props.setNotes([])
+  }
+
+// =============================================================================
+// Render Each Section along corresponding note
+// =============================================================================
+
+  backUpNote = (id, text) => {
+    window.localStorage.setItem('benrinoteBackup', JSON.stringify({id, text}))
+  }
+
+  updateNote = (noteId, noteText) => {
+    return this.props.updateNote(noteId, noteText)
   }
 
   handleRender() {
     const notes = this.props.notes.map((note) => {
       return (
-        <section>
-          {/* <h3>{this.sections.filter(section => section.id === note.sec_id).title}</h3> */}
+        <section key={note.id}>
           <Link to={`/publication/${this.props.activePub.id}`}>
             <h3>{note.title}</h3>
           </Link>
-          <p>{note.text}</p>
+          <textarea rows="4" cols="50" defaultValue={note.text} onChange={e => this.backUpNote(note.id, e.target.value)} onBlur={e => this.updateNote(note.id, e.target.value)}></textarea>
         </section>
       )
     })
@@ -42,10 +88,10 @@ class CompiledNotes extends Component {
   render() {
     return (
       <>
-      {this.props.activePub
-        ? this.handleRender()
-        : <h1>Loading...</h1>
-      }
+        {this.state.ready
+          ? this.handleRender()
+          : <h1>Loading...</h1>
+        }
       </>
     )
   }

@@ -3,19 +3,34 @@ import PublicationSummary from '../../Components/PublicationSummary/PublicationS
 
 class ListOfPublications extends Component {
   
+// =============================================================================
+// Pre-Render Fetch Requests
+// =============================================================================
+
   componentDidMount() {
     this.props.clearError()
     this.props.getPublications()
-      .then(pubs => this.props.setPublications(pubs))
-      .catch(this.props.setError())
   }
+
+// =============================================================================
+// Cleanup
+// =============================================================================
 
   componentWillUnmount() {
     this.props.setPublications([])
   }
 
+  onDisable = id => {
+    const existy = this.props.userpub.filter(
+      up => up.pub_id === id
+    )
+    return !!existy.length
+  }
+
   renderPublications() {
     const publications = this.props.publications.map((publication) => {
+
+      const disable = this.onDisable(publication.id)
       return (
         <PublicationSummary 
           key={publication.id}
@@ -25,6 +40,7 @@ class ListOfPublications extends Component {
           summary={publication.summary}
           addUserPub={this.props.addUserPub}
           userpub={this.props.userpub}
+          disable={disable}
         />
       )
     })

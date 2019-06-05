@@ -8,11 +8,11 @@ const NoteApiService = {
         'authorization': `bearer ${TokenService.getAuthToken()}`
       },
     })
-      .then(res =>
-        (!res.ok)
-          ? res.json().then(e => Promise.reject(e))
-          : res.json()
-      )
+    .then(res =>
+      (!res.ok)
+        ? res.json().then(e => Promise.reject(e))
+        : res.json()
+    )
   },
   // getNote(id) {
   //   return fetch(`${config.API_BASE_URL}/users/${userId}/notes/note/${id}`, {
@@ -34,28 +34,41 @@ const NoteApiService = {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        text: newNotes,
-      }),
+        text: newNotes
+      })
     })
-      .then(res =>
-        (!res.ok)
-          ? res.json().then(e => Promise.reject(e))
-          : res.json()
-      )
+    .then(res =>{
+      if (!res.ok) {
+        res.json().then(e => Promise.reject(e))
+      }
+    })
   },
-  // deleteNote(pubId, userId) {
-  //   return fetch(`${config.API_BASE_URL}/notes/${pubId}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'authorization': `bearer ${TokenService.getAuthToken()}`
-  //     },
-  //   })
-  //     .then(res =>
-  //       (!res.ok)
-  //         ? res.json().then(e => Promise.reject(e))
-  //         : res.json()
-  //     )
-  // }
+  initializeNotes(id) {
+    return fetch(`${config.API_BASE_URL}/notes/publication/${id}`, {
+      method: 'POST',
+      headers: {
+        'authorization': `bearer ${TokenService.getAuthToken()}`
+      },
+    })
+    .then(res =>{
+      if (!res.ok) {
+        res.json().then(e => Promise.reject(e))
+      }
+    })
+  },
+  deleteNotes(id) {
+    return fetch(`${config.API_BASE_URL}/notes/publication/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'authorization': `bearer ${TokenService.getAuthToken()}`
+      },
+    })
+    .then(res =>{
+      if (!res.ok) {
+        res.json().then(e => Promise.reject(e))
+      }
+    })
+  }
 }
 
 export default NoteApiService

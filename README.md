@@ -1,5 +1,23 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# benrinote-app [github page](https://github.com/levipaulk/benrinote-app)
+
+This is a note-taking react-application that uses this api, [Benrinote](https://github.com/levipaulk/benrinote-api).
+
+After registration and login, the user can:
+1. Browse from a list of available ==Publications==
+2. View their list of ==Publications== on their ==Dashboard==
+3. Read any of their ==Publications== 
+  + ==Publications== are divided into ==Sections==
+4. Take ==Notes== on individual ==Sections==
+  + Each ==Section== has an associated section of ==Notes==
+  + ==Notes== are generated in the database when a User adds a ==Publication== to their ==Dashboard==
+  + ==Notes== are saved to the database through an onBlur event
+  + As a failsafe, the User's last-edited ==Note== is saved in Local Memory
+    + When either the ==Publication== or ==Compiled Notes== are about to be mounted,
+    + The application will check for any unsaved note, saving it to the database if found
+5. View their ==Notes==, grouped by ==Publication==
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -36,6 +54,11 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## F.A.Q
+-"What does 'benrinote' mean?"
+  + benri, a.k.a. べんり or 便利, roughly translates to 'convenient'
+  + benri is more-or-less pronounced as 'ben-ree'
 
 ## Learn More
 

@@ -1,39 +1,50 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import PublicationSection from '../../Components/Publication-Section/Publication-Section'
 
 
 class Publication extends React.Component {
   state = {
-    ready: false
+    ready: false,
+    // activeNote: null
+  }
+
+// =============================================================================
+// Pre-Render checks and fetch requests
+// =============================================================================
+
+  componentWillMount() {
+    let note = JSON.parse(localStorage.getItem('benrinoteBackup'))
+    localStorage.clear()
+    if(note) {this.props.recoverNote(note.id, note.text)}
   }
 
   componentDidMount() {
     this.props.clearError()
     let pubId = this.props.match.params.publication
     pubId = Number(pubId)
-    console.log(pubId, typeof pubId)
     this.props.activePub && this.props.activePub.id === pubId
       ? this.handleNotesAndSections()
       : this.handleActivePub(pubId)
   }
 
   handleActivePub = (pubId) => {
-    console.log('handleActivePub ran with pubId ', pubId)
-    debugger;
     this.props.getActivePub(pubId)
-      .then((activePub) => {
-        console.log(`Active Publication is `, activePub)
+      .then(() => {
+        return this.handleNotesAndSections();
       })
-      .catch(e => console.error(e))
   }
 
   handleNotesAndSections = () => {
-    console.log('handleNotesAndSections ran')
-    // Promise.all([this.props.getNotes(), this.props.getSections()])
-    //       .then((res) => this.setState({ ready: true }))
-    //       .catch(e => console.error(e))
+    Promise.all([this.props.getNotes(), this.props.getSections()])
+          .then((res) => {
+            return this.setState({ ready: true })
+          })
   }
+
+// =============================================================================
+// Clean Up
+// =============================================================================
 
   componenetWillUnmount() {
     this.setState({ ready: false })
@@ -41,27 +52,22 @@ class Publication extends React.Component {
     this.props.setSections([])
   }
 
+// =============================================================================
+// Render Each Section along corresponding note
+// =============================================================================
+  
   handleRender() {
+    let { updateNote, activePub } = this.props
     const sections = this.props.sections.map((section) => {
       const note = this.props.notes.filter(n => n.section === section.section)
-      console.log(note)
       return (
-        <section>
-          <header role="banner">
-            <h3>{section.title}</h3>
-          </header>
-          <div className="section-content-wrapper">
-            <p>{section.text}</p>
-          </div>
-          <div className="notes-wrapper">
-            <button>Notes</button>
-            <div className="notes-collapseable">
-              <Link to={`/dashboard/${this.section.pub_id}`}>
-                All Notes
-              </Link>
-              <textarea rows="4" cols="50">{note.text}</textarea>
-            </div>
-          </div>
+        <section key={section.id}>
+          <PublicationSection 
+            updateNote={updateNote}
+            section={section}
+            note={note}
+            activePub={activePub}
+          />
         </section>
       )
     })

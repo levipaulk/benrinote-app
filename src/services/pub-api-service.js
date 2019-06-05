@@ -26,6 +26,11 @@ const PublicationApiService = {
           : res.json()
       )
   },
+
+// =============================================================================
+// Code below: work in progress
+// =============================================================================
+
   // postPublication(title, author_id, files) {
   //   return fetch(`${config.API_BASE_URL}/publications`, {
   //     method: 'POST',

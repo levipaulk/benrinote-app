@@ -20,7 +20,6 @@ import NoteApiService from '../../services/note-api-service';
 import './App.css';
 
 class App extends React.Component {
-
   state = { 
     hasError: false,
     error: null,
@@ -33,27 +32,29 @@ class App extends React.Component {
       // {pub_id: 1, date_created: '5/31/2019', title: 'Publication 1', cover: 'url'},
       // {pub_id: 2, date_created: '6/1/2019', title: 'Publication 2', cover: 'url'}
     ],
-    activePub: null,
     publications: [
       // {id: 1, title: 'Publication 1', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'},
       // {id: 2, title: 'Publication 2', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'},
-      // {id: 3, title: 'Publication 3', cover: 'url', summary: 'summary', date_created: 'date', author: 'User 1', publisher: 'User 3'}
     ],
+    activePub: null,
     sections: [
       // {id, pub_id: 1, section: 1, title: 'first section', text: '...Stuff'},
       // {id, pub_id: 1, section: 2, title: 'second section', text: '...Stuff'},
-      // {id, pub_id: 2, section: 1, title: 'first section', text: '...Stuff'},
     ],
     notes: [
       // {id: 1, pub_id: 1, sec_id: 1, title: 'first section', text: 'These are my notes, lalalalaalalalalala'},
       // {id: 2, pub_id: 1, sec_id: 2, title: 'second section', text: 'These are my notes, lalalalaalalalalala'},
-      // {id: 3, pub_id: 2, sec_id: 1, title: 'first section', text: 'These are my notes, lalalalaalalalalala'}
     ]
   }
-
+// =============================================================================
+// Basic State helper Functions
+// =============================================================================
   setError = error => {
     console.error(error)
     this.setState({ error })
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true }
   }
   clearError = () => {
     this.setState({ error: null })
@@ -63,26 +64,6 @@ class App extends React.Component {
   }
   setUserPub = userpub => {
     this.setState({ userpub })
-  }
-  getActivePub = pubId => {
-    PublicationApiService.getPublication(pubId)
-      .then(activePub => {
-        this.setState({ activePub })
-      })
-      .catch(e => console.error(e))
-  }
-  getNotes = () => {
-    NoteApiService.getNotesByPubId(this.state.activePub.id)
-      .then(notes => this.setState({notes}))
-      .catch(e => console.error(e))
-  }
-  getSections = (id) => {
-    SectionsApiService.getSections(this.state.activePub.id)
-      .then(sections => {
-        console.log(sections)
-        this.setSections(sections)
-      })
-      .catch(e => console.error(e))
   }
   setPublications = publications => {
     this.setState({ publications })
@@ -101,15 +82,11 @@ class App extends React.Component {
     this.setNotes([])
     this.setState({ activePub: null })
   }
-
-  static getDerivedStateFromError(error) {
-    console.error(error)
-    return { hasError: true }
-  }
-
+// =============================================================================
+// Lifecycle Methods
+// =============================================================================
   componentDidMount() {
     IdleService.setIdleCallback(this.logoutFromIdle)
-
     if (TokenService.hasAuthToken()) {
       IdleService.registerIdleTimerResets()
       TokenService.queueCallbackBeforeExpiry(() => {
@@ -117,44 +94,110 @@ class App extends React.Component {
       })
     }
   }
-
   componentWillUnmount() {
     IdleService.unRegisterIdleResets()
     TokenService.clearCallbackBeforeExpiry()
   }
-
   logoutFromIdle = () => {
     TokenService.clearAuthToken()
     TokenService.clearCallbackBeforeExpiry()
     IdleService.unRegisterIdleResets()
     this.forceUpdate()
   }
-
+// =============================================================================
+// User helpers
+// =============================================================================
   getUserInfo = () => {
     UserPubApiService.getUserInfo()
       .then(user => this.setUser(user))
       .then(() => this.getUserPub())
   }
-
+// =============================================================================
+// UserPub helpers
+// =============================================================================
   getUserPub = () => {
-    console.log('getUserPub ran from app.js')
     UserPubApiService.getUserPublications()
       .then(userpub => {
-        console.log(userpub)
         this.setUserPub(userpub)
       })
   }
-
   addUserPub = (pubId) => {
     UserPubApiService.postUserPublications(pubId)
       .then(() => this.getUserPub())
+      .then(() => NoteApiService.initializeNotes(pubId))
   }
-
   deleteUserPub = (pubId) => {
     UserPubApiService.deleteUserPublications(pubId)
-      .then(() => this.getUserPub())
+      .then(() => {
+        Promise.all([this.getUserPub(), NoteApiService.deleteNotes(pubId)])
+          .then((res) => {
+          })
+          .catch(e => console.error(e))
+      })
+      .catch(e => console.error(e))
   }
-
+// =============================================================================
+// Publication helpers
+// =============================================================================
+  getPublications = () => {
+    PublicationApiService.getPublications()
+      .then(pubs => {
+        Promise.all([this.getUserPub(), this.setPublications(pubs)])
+          .catch(e => console.error(e))
+      })
+  }
+// =============================================================================
+// ActivePub helpers
+// =============================================================================
+  getActivePub = pubId => {
+    return PublicationApiService.getPublication(pubId)
+      .then(activePub => {
+        this.setState({ activePub });
+        return activePub
+      })
+      .catch(e => console.error(e))
+  }
+// =============================================================================
+// Section helpers
+// =============================================================================
+  getSections = () => {
+    return SectionsApiService.getSections(this.state.activePub.id)
+      .then(sections => {
+        this.setSections(sections)
+        return sections
+      })
+      .catch(e => console.error(e))
+  }
+// =============================================================================
+// Note helpsers
+// =============================================================================
+  getNotes = () => {
+    return NoteApiService.getNotesByPubId(this.state.activePub.id)
+      .then(notes => {
+        this.setState({notes});
+        return notes
+      })
+      .catch(e => console.error(e))
+  }
+  updateNote = (id , text) => {
+    return NoteApiService.patchNote(id, text)
+      .then(res => {
+        return window.localStorage.removeItem('benrinoteBackup')
+      })
+      .then(() => {
+        return this.getNotes()
+      })
+      .catch(e => console.error(e))
+  }
+  recoverNote = (id, text) => {
+    return NoteApiService.patchNote(id, text)
+      .then(res => {
+        window.localStorage.removeItem('benrinoteBackup')
+      })
+  }
+// =============================================================================
+// Render Components
+// =============================================================================
   render() {
     return (
       <div className='App'>
@@ -203,8 +246,10 @@ class App extends React.Component {
                     getActivePub={this.getActivePub}
                     getNotes={this.getNotes}
                     setNotes={this.setNotes}
+                    updateNote={this.updateNote}
                     getSections={this.getSections}
                     setSections={this.setSections}
+                    recoverNote={this.recoverNote}
                   />
                 : <Redirect to={'/login'} /> 
               }
@@ -216,7 +261,7 @@ class App extends React.Component {
                     error={this.state.error} 
                     setError={this.setError} 
                     clearError={this.clearError}
-                    getPublications={PublicationApiService.getPublications}
+                    getPublications={this.getPublications}
                     setPublications={this.setPublications}
                     addUserPub={this.addUserPub}
                     publications={this.state.publications}
@@ -237,6 +282,9 @@ class App extends React.Component {
                     notes={this.state.notes}
                     activePub={this.state.activePub}
                     getActivePub={this.getActivePub}
+                    getNotes={this.getNotes}
+                    updateNote={this.updateNote}
+                    recoverNote={this.recoverNote}
                   />
                 : <Redirect to={'/login'} /> 
               }

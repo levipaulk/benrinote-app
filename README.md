@@ -8,7 +8,8 @@ This is a note-taking react-application that uses this api.
 [Live](https://levi-benrinote-app.now.sh/)
 
 After registration and login, the user can:
-![Alt text](./src/images/Publications-screenshot.png?raw=true "Title")
+<!-- ![Alt text](./src/images/Publications-screenshot.png?raw=true "Title") -->
+<img src="./src/images/Publications-screenshot.png" width="267" height="400" alt="Publications Page">
 1. Browse from a list of available ==Publications==
 2. View their list of ==Publications== on their ==Dashboard==
 3. Read any of their ==Publications== 

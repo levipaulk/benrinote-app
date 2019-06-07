@@ -38,8 +38,8 @@ class App extends React.Component {
     ],
     activePub: null,
     sections: [
-      // {id, pub_id: 1, section: 1, title: 'first section', text: '...Stuff'},
-      // {id, pub_id: 1, section: 2, title: 'second section', text: '...Stuff'},
+      // {id: 1, pub_id: 1, section: 1, title: 'first section', text: '...Stuff'},
+      // {id: 2, pub_id: 1, section: 2, title: 'second section', text: '...Stuff'},
     ],
     notes: [
       // {id: 1, pub_id: 1, sec_id: 1, title: 'first section', text: 'These are my notes, lalalalaalalalalala'},
@@ -175,13 +175,12 @@ class App extends React.Component {
     return NoteApiService.getNotesByPubId(this.state.activePub.id)
       .then(notes => {
         this.setState({notes});
-        return notes
       })
       .catch(e => console.error(e))
   }
   updateNote = (id , text) => {
     return NoteApiService.patchNote(id, text)
-      .then(res => {
+      .then(() => {
         return window.localStorage.removeItem('benrinoteBackup')
       })
       .then(() => {
@@ -201,7 +200,7 @@ class App extends React.Component {
   render() {
     return (
       <div className='App'>
-        <header>
+        <header className='nav-container'>
           <Header 
             clearUser={this.clearUser}
             getUserPub={this.getUserPub}

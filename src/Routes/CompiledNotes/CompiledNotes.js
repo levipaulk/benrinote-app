@@ -51,6 +51,30 @@ class CompiledNotes extends Component {
   }
 
 // =============================================================================
+// Toggle Confirm Clear Note
+// =============================================================================
+
+  toggleConfirm = (confirmId, normalId) => {
+    const pub = document.getElementById(confirmId)
+    const norm = document.getElementById(normalId)
+    if (pub.style.display === "none") {
+      pub.style.display = "block";
+      if (norm.style.display === "none") {
+        norm.style.display = "block";
+      } else {
+        norm.style.display = "none";
+      }
+    } else {
+      pub.style.display = "none";
+      if (norm.style.display === "none") {
+        norm.style.display = "block";
+      } else {
+        norm.style.display = "none";
+      }
+    }
+  }
+
+// =============================================================================
 // Render Each Section along corresponding note
 // =============================================================================
 
@@ -66,19 +90,31 @@ class CompiledNotes extends Component {
     const notes = this.props.notes.map((note) => {
       return (
         <section key={note.id}>
-          <Link to={`/publication/${this.props.activePub.id}`}>
+          <Link to={`/publication/${this.props.activePub.id}`} className='title-link'>
             <h3>{note.title}</h3>
           </Link>
-          <textarea rows="4" cols="50" defaultValue={note.text} onChange={e => this.backUpNote(note.id, e.target.value)} onBlur={e => this.updateNote(note.id, e.target.value)}></textarea>
+          <div className={'col-1'}>
+          <div id={`normal-options-${note.id}`} style={{display: 'block'}}>
+            <div className={'row'}>
+              <button onClick={() => this.toggleConfirm(`confirm-${note.id}`, `normal-options-${note.id}`)}>Clear Notes</button>
+            </div>
+          </div>
+          <div id={`confirm-${note.id}`} className={'row'} style={{display: 'none'}}>
+            <h3>Are you sure you want to delete your notes for {note.title}</h3>
+            <button onClick={() => this.updateNote(note.id, ' ')}>Confirm</button>
+            <button onClick={() => this.toggleConfirm(`confirm-${note.id}`, `normal-options-${note.id}`)}>Cancel</button>
+          </div>
+          </div>
+          <textarea rows="6" cols="500" defaultValue={note.text} onChange={e => this.backUpNote(note.id, e.target.value)} onBlur={e => this.updateNote(note.id, e.target.value)}></textarea>
         </section>
       )
     })
     return (
       <div className='landing-wrapper'>
-        <Link to={`/publication/${this.props.activePub.id}`}>
+        <Link to={`/publication/${this.props.activePub.id}`} className='title-link'>
           <header role='banner'>
             <h1>{this.props.activePub.title}</h1>
-            <img src={this.props.activePub.cover} alt={`${this.props.activePub.title}'s Cover`}/>
+            <img src={this.props.activePub.cover} alt={`${this.props.activePub.title}'s Cover`} className={'img-cover'}/>
           </header>
         </Link>
         {notes}

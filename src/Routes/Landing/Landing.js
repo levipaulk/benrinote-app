@@ -1,56 +1,84 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
+import './Landing.css'
+
+import Publications from '../../images/Publications-screenshot.png'
+import Dashboard from '../../images/Dashboard-screenshot.png'
+import Publication from '../../images/Publication-screenshot.png'
+import CompiledNotes from '../../images/CompiledNotes-screenshot.png'
+import Delete from '../../images/Delete-Dashboard-screenshot.png'
 
 class Landing extends Component {
   sections = [
     {
       id: 1,
-      header: 'Take note',
-      placeholder: 'placeholder for screenshot of taking notes alongside the reading',
-      description: 'BenriNote lets you take notes as you read, all on the same page'
+      link: '/publications',
+      header: "Learn",
+      img: Publications,
+      alt: 'Screenshot of the Publications Page',
+      description: 'Browse from a list of Publications and add them to your Dashboard'
     },
     {
       id: 2,
-      header: 'Stay organized',
-      placeholder: 'placeholder for gif demonstrating that notes for a specific section will only display for that section of the reading',
-      description: 'BenriNote keeps you organized. As you study, we only display your notes for the current section. No more jumbled, messy notes.'
+      link: '/dashboard',
+      header: 'Stay Organized',
+      img: Dashboard,
+      alt: 'Screenshot of the Dashboard Page',
+      description: 'View all of your saved Publications and Notes from your Dashboard'
     },
     {
       id: 3,
-      header: 'Intertwined',
-      placeholder: `placeholder for gif demonstrating that clicking on the header of a note's section will link to the related section of the reading`,
-      description: 'Finding what your notes are referencing is as easy as one click.'
+      link: '/dashboard',
+      header: 'Take note',
+      img: Publication,
+      alt: `Screenshot of a Publication's Page`,
+      description: 'Publications have notes for each section, simply click the note button for each section'
     },
     {
       id: 4,
-      header: 'Automatic Filing',
-      placeholder: 'placeholder for screenshot of notes, ogranized by reading, with dropdown of notes page for each chapter',
-      description: 'BenriNote keeps your notes organized by publication and chapte'
+      link: '/dashboard',
+      header: 'Intertwined',
+      img: CompiledNotes,
+      alt: 'Screenshot of the Notes page for a Publication',
+      description: 'View all of your notes for a given Publication on a single page'
     },
     {
       id: 5,
-      header: 'Sharing is Caring',
-      placeholder: 'placeholder for screenshot of "share with friends" modal',
-      description: 'Share notes with your friends.'
+      link: '/dashboard',
+      header: 'Discard',
+      img: Delete,
+      alt: 'Screenshot of the Dashboard Page with delete notes confirmation notification',
+      description: 'Delete all or some of your notes at any time'
     }
   ]
 
   render() {
     const sections = this.sections.map((section) => {
       return (
-        <section key={section.id}>
-          <header>
-            <h3>{section.header}</h3>
-          </header>
-          <p>[<em>{section.placeholder}</em>]</p>
-          <p>{section.description}</p>
+        <section key={section.id} className={'row'}>
+          <Link to={section.link} className='landing-title'>
+            <header className={'row landing-header'}>
+              <h2>{section.header}</h2>
+            </header>
+            <div className={'landing-col'}>
+              <div className='landing-img'>
+                <img src={section.img} alt={section.alt} className={'img-screenshot'} height={400} width={267}/>
+              </div>
+            </div>
+          </Link>
+          <div className={'col-1'}>
+            <p className='row'>{section.description}</p>
+          </div>
         </section>
       )
     })
     return (
       <div className='landing-wrapper'>
-        <header role='banner'>
-          <h1>BenriNote</h1>
-          <h2>Spend less time searching and more time learning</h2>
+        <header role='banner' className={'hero-image'}>
+          <div className={'hero-text'}>
+            <h1>BenriNote</h1>
+            <h2>Spend less time searching and more time learning</h2>
+          </div>
         </header>
         {sections}
       </div>

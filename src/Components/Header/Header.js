@@ -18,18 +18,18 @@ export default class Header extends Component {
 
   renderLogoutLink() {
     return (
-      <div className='Header__logged-in'>
+      <div className='Header__logged-in nav-links'>
         <Link
-          to='/publications'>
+          to='/publications' className='nav-links nav-col nav-a'>
           Publications
         </Link>
         <Link
-          to='/dashboard'>
+          to='/dashboard' className='nav-links nav-col nav-a'>
           My Dashboard
         </Link>
         <Link
           onClick={this.handleLogoutClick}
-          to='/'>
+          to='/' className='nav-links nav-col nav-a'>
           Logout
         </Link>
       </div>
@@ -38,13 +38,13 @@ export default class Header extends Component {
 
   renderLoginLink() {
     return (
-      <div className='Header__not-logged-in'>
+      <div className='Header__not-logged-in nav-links'>
         <Link
-          to='/login'>
+          to='/login' className='nav-links nav-col nav-a'>
           Log in
         </Link>
         <Link
-          to='/register'>
+          to='/register' className=' nav-linksnav-col nav-a'>
           Register
         </Link>
       </div>
@@ -53,12 +53,10 @@ export default class Header extends Component {
 
   render() {
     return <>
-      <nav className='Header' role='navigation'>
-        <h3>
-          <Link to='/'>
-            BenriNote
-          </Link>
-        </h3>
+      <nav className='Header nav-row' role='navigation'>
+        <Link to='/' className={'nav-links nav-col'}>
+          <h3>BenriNote</h3>
+        </Link>
         {TokenService.hasAuthToken()
           ? this.renderLogoutLink()
           : this.renderLoginLink()}

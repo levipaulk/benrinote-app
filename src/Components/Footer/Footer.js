@@ -6,16 +6,11 @@ export default class Footer extends Component {
   render() {
     return <>
       <footer className='footer' role='navigation'>
-        <h3>
+        <h3 className={'nav-links'}>
           <Link to='/'>
             BenriNote
           </Link>
         </h3>
-        <h4>
-            <Link to='/contact'>
-                Contact Us
-            </Link>
-        </h4>
       </footer>
     </>
   }

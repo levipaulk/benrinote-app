@@ -2,16 +2,27 @@ import React from 'react';
 
 const PublicationSummary = (props) => {
   return (
-    <section id={props.id} className={props.id}>
-      <header>
+    <section id={props.id} className={`${props.id} flex-conatiner`}>
+      <div className={'pub-sum-subsection'}>
+      <header className={'row'}>
         <h3>{props.title}</h3>
       </header>
-      <img src={props.cover} alt={`${props.title}'s Cover`}/>
+      <div className={'col-1'}>
+        <img src={props.cover} alt={`${props.title}'s Cover`} className={'img-cover'}/>
+      </div>
       {/* <p>{props.author}</p> */}
-      <p>{props.summary}</p>
-      <button 
-        onClick={() => props.addUserPub(props.id)} 
-        disabled={props.disable}>Add</button>
+      </div>
+      <div className={'pub-sum-subsection col-1'}>
+        <p className={'row'}>{props.summary}</p>
+        <div className={'row'}>
+          <button 
+            onClick={() => props.addUserPub(props.id)} 
+            disabled={props.disable}
+          >
+            Add
+          </button>
+        </div>
+        </div>
     </section>
   )
 }

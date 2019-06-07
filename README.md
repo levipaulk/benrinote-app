@@ -55,6 +55,16 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Example .env.local
+
+REACT_APP_API_KEY="you-secret-here"
+REACT_APP_API_BASE_URL="https://your-url-here"
+
+## Test User
+
+-Username: dunder
+-Password: password
+
 ## F.A.Q
 -"What does 'benrinote' mean?"
   + benri, a.k.a. べんり or 便利, roughly translates to 'convenient'

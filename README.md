@@ -28,7 +28,7 @@ After registration and login, the user can:
 <img src="./src/images/CompiledNotes-screenshot.png" width="134" height="200" alt="Screenshot of a specific Publication's notes Page">
 
 5. View their ==Notes==, grouped by ==Publication==
-<img src="./src/images/Delete-screenshot.png" width="134" height="200" alt="Screenshot of a user's Dahsboard Page with the Confirm Delete Message on display">
+<img src="./src/images/Delete-Dashboard-screenshot.png" width="134" height="200" alt="Screenshot of a user's Dahsboard Page with the Confirm Delete Message on display">
 
 ## Available Scripts
 

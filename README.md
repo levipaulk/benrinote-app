@@ -9,7 +9,7 @@ This is a note-taking react-application that uses this api.
 
 After registration and login, the user can:
 <!-- <img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Publications Page"> -->
-![Screenshot of Publications Page](./src/images/Publications-screenshot.png =134x200)
+![Screenshot of Publications Page](./src/images/Publications-screenshot.png?raw=true "Title" width=134 height=200)
 1. Browse from a list of available ==Publications==
 2. View their list of ==Publications== on their ==Dashboard==
 3. Read any of their ==Publications== 

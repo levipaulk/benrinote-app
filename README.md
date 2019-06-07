@@ -3,9 +3,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # benrinote-app 
 
 This is a note-taking react-application that uses this api. 
-[Benrinote app github](https://github.com/levipaulk/benrinote-app)
-[Benrinote api github](https://github.com/levipaulk/benrinote-api)
-[Live](https://levi-benrinote-app.now.sh/)
+  + [Benrinote app github](https://github.com/levipaulk/benrinote-app)
+  + [Benrinote api github](https://github.com/levipaulk/benrinote-api)
+  + [Live](https://levi-benrinote-app.now.sh/)
 
 After registration and login, the user can:
 

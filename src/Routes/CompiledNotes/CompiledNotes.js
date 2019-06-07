@@ -86,6 +86,12 @@ class CompiledNotes extends Component {
     return this.props.updateNote(noteId, noteText)
   }
 
+  updateAndRemoveNote = (noteId, noteText, textBoxId) => {
+    const note = document.getElementById(textBoxId)
+    note.value = '';
+    return this.props.updateNote(noteId, noteText)
+  }
+
   handleRender() {
     const notes = this.props.notes.map((note) => {
       return (
@@ -101,11 +107,19 @@ class CompiledNotes extends Component {
           </div>
           <div id={`confirm-${note.id}`} className={'row'} style={{display: 'none'}}>
             <h3>Are you sure you want to delete your notes for {note.title}</h3>
-            <button onClick={() => this.updateNote(note.id, ' ')}>Confirm</button>
+            <button onClick={() => this.updateAndRemoveNote(note.id, '', `note-text-${note.id}`)}>Confirm</button>
             <button onClick={() => this.toggleConfirm(`confirm-${note.id}`, `normal-options-${note.id}`)}>Cancel</button>
           </div>
           </div>
-          <textarea rows="6" cols="500" defaultValue={note.text} onChange={e => this.backUpNote(note.id, e.target.value)} onBlur={e => this.updateNote(note.id, e.target.value)}></textarea>
+          <textarea 
+            id={`note-text-${note.id}`}
+            rows="6" 
+            cols="500" 
+            defaultValue={note.text} 
+            onChange={e => this.backUpNote(note.id, e.target.value)} 
+            onBlur={e => this.updateNote(note.id, e.target.value)}
+          >
+          </textarea>
         </section>
       )
     })

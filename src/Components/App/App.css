@@ -19,6 +19,11 @@ body {
   line-height: 1.5;
 }
 
+button {
+  font-size: 20px;
+  margin: 10px;
+}
+
 /* @media only screen and (max-width: 600px) {
   .col-1 {
     flex-basis: 100%;
@@ -59,7 +64,7 @@ body {
   display: inline-block;
   margin: 0px;
   margin-right: 5px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .note {
@@ -120,6 +125,8 @@ textarea {
   margin: 0px;
   max-width: 80%;
   min-height: 200px;
+  font-size: 18px;
+  font-family: 'Coming Soon', cursive;
 }
 
 .flex-conatiner {
@@ -168,7 +175,7 @@ textarea {
 }
 
 .nav-a {
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .nav-row {

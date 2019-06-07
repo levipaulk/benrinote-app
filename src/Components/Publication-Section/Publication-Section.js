@@ -46,7 +46,7 @@ export default class PublicationSection extends Component {
             <h5 className='note-title'>Notes for Section {section.section}, {section.title}</h5>
             <button onClick={() => this.toggleNote(`note${note[0].id}`)} className='note-title'>Hide</button>
             <Link to={`/dashboard/${activePub.id}`} className='note-title'>
-              <button>All Notes</button>
+              <button className='note-title'>All Notes</button>
             </Link>
           </div>
           <textarea 

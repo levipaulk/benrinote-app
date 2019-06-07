@@ -14,18 +14,6 @@ const NoteApiService = {
         : res.json()
     )
   },
-  // getNote(id) {
-  //   return fetch(`${config.API_BASE_URL}/users/${userId}/notes/note/${id}`, {
-  //     headers: {
-  //       'authorization': `bearer ${TokenService.getAuthToken()}`
-  //     },
-  //   })
-  //     .then(res =>
-  //       (!res.ok)
-  //         ? res.json().then(e => Promise.reject(e))
-  //         : res.json()
-  //     )
-  // },
   patchNote(id, newNotes) {
     return fetch(`${config.API_BASE_URL}/notes/note/${id}`, {
       method: 'PATCH',

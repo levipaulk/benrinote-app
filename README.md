@@ -8,12 +8,16 @@ This is a note-taking react-application that uses this api.
 [Live](https://levi-benrinote-app.now.sh/)
 
 After registration and login, the user can:
-<!-- <img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Publications Page"> -->
-![Screenshot of Publications Page](./src/images/Publications-screenshot.png){:height="200px" width="134px"}
+
 1. Browse from a list of available ==Publications==
+<img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Screenshot of the Publications Page">
 2. View their list of ==Publications== on their ==Dashboard==
+<img src="./src/images/Dashboard-screenshot.png" width="134" height="200" alt="Screenshot of a user's Dashboard Page">
+
 3. Read any of their ==Publications== 
   + ==Publications== are divided into ==Sections==
+<img src="./src/images/Publication-screenshot.png" width="134" height="200" alt="Screenshot of a specific Publication's Page">
+
 4. Take ==Notes== on individual ==Sections==
   + Each ==Section== has an associated section of ==Notes==
   + ==Notes== are generated in the database when a User adds a ==Publication== to their ==Dashboard==
@@ -21,7 +25,10 @@ After registration and login, the user can:
   + As a failsafe, the User's last-edited ==Note== is saved in Local Memory
     + When either the ==Publication== or ==Compiled Notes== are about to be mounted,
     + The application will check for any unsaved note, saving it to the database if found
+<img src="./src/images/CompiledNotes-screenshot.png" width="134" height="200" alt="Screenshot of a specific Publication's notes Page">
+
 5. View their ==Notes==, grouped by ==Publication==
+<img src="./src/images/Delete-screenshot.png" width="134" height="200" alt="Screenshot of a user's Dahsboard Page with the Confirm Delete Message on display">
 
 ## Available Scripts
 
@@ -70,12 +77,32 @@ REACT_APP_API_BASE_URL="https://your-url-here"
 -Username: dunder
 -Password: password
 
+## Technologies
+
+-This is a React project, built using Nodejs
+--You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+-Node Modules used for this project:
+--bcrypt
+--date-fns
+--draft-js
+--jwt-decode
+--markdown-react-js
+--react
+--react-dom
+--react-draft-wysiwyg
+--react-router-dom
+--react-scripts
+--enzyme
+--enzyme-adapter-react-16
+--enzyme-to-json
+
 ## F.A.Q
 -"What does 'benrinote' mean?"
   + benri, a.k.a. べんり or 便利, roughly translates to 'convenient'
   + benri is more-or-less pronounced as 'ben-ree'
 
-## Learn More
+<!-- ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
@@ -103,4 +130,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->

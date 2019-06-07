@@ -1,10 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# benrinote-app [github page](https://github.com/levipaulk/benrinote-app)
+# benrinote-app 
 
-This is a note-taking react-application that uses this api, [Benrinote](https://github.com/levipaulk/benrinote-api).
+This is a note-taking react-application that uses this api. 
+[Benrinote app github](https://github.com/levipaulk/benrinote-app)
+[Benrinote api github](https://github.com/levipaulk/benrinote-api)
+[Live](https://levi-benrinote-app.now.sh/)
 
 After registration and login, the user can:
+![Alt text](./images/Publications-screenshot.png?raw=true "Title")
 1. Browse from a list of available ==Publications==
 2. View their list of ==Publications== on their ==Dashboard==
 3. Read any of their ==Publications== 

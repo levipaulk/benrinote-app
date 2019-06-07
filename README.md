@@ -8,11 +8,13 @@ This is a note-taking react-application that uses this api.
 [Live](https://levi-benrinote-app.now.sh/)
 
 After registration and login, the user can:
-<!-- ![Alt text](./src/images/Publications-screenshot.png?raw=true "Title") -->
-<img src="./src/images/Publications-screenshot.png" width="267" height="400" alt="Publications Page"> 1. Browse from a list of available ==Publications==
+<img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Publications Page"> 1. Browse from a list of available ==Publications==
+<img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Publications Page">
 2. View their list of ==Publications== on their ==Dashboard==
+<img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Publications Page">
 3. Read any of their ==Publications== 
   + ==Publications== are divided into ==Sections==
+<img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Publications Page">
 4. Take ==Notes== on individual ==Sections==
   + Each ==Section== has an associated section of ==Notes==
   + ==Notes== are generated in the database when a User adds a ==Publication== to their ==Dashboard==
@@ -20,6 +22,7 @@ After registration and login, the user can:
   + As a failsafe, the User's last-edited ==Note== is saved in Local Memory
     + When either the ==Publication== or ==Compiled Notes== are about to be mounted,
     + The application will check for any unsaved note, saving it to the database if found
+<img src="./src/images/Publications-screenshot.png" width="134" height="200" alt="Publications Page">
 5. View their ==Notes==, grouped by ==Publication==
 
 ## Available Scripts

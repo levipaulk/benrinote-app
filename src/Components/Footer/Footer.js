@@ -8,7 +8,7 @@ export default class Footer extends Component {
       <footer className='footer' role='navigation'>
         <h3 className={'nav-links'}>
           <Link to='/'>
-            BenriNote
+            <button className='nav-buttons'><h3 className='nav-buttons-home'>BenriNote</h3></button>
           </Link>
         </h3>
       </footer>

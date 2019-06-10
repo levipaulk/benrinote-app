@@ -55,19 +55,23 @@ class Landing extends Component {
   render() {
     const sections = this.sections.map((section) => {
       return (
-        <section key={section.id} className={'row'}>
-          <Link to={section.link} className='landing-title'>
-            <header className={'row landing-header'}>
-              <h2>{section.header}</h2>
-            </header>
+        <section key={section.id} className={'landing-section-wrapper'}>
+          <div className='row landing-title-wrapper'>
+            <Link to={section.link} className='landing-col landing-title'>
+              <header className={'landing-header'}>
+                <h2 className='landing-header-h2'>{section.header}</h2>
+              </header>
+            </Link>
+          </div>
+          <div className='row'>
             <div className={'landing-col'}>
               <div className='landing-img'>
                 <img src={section.img} alt={section.alt} className={'img-screenshot'} height={400} width={267}/>
               </div>
             </div>
-          </Link>
-          <div className={'col-1'}>
-            <p className='row'>{section.description}</p>
+            <div className={'col-1'}>
+              <p className='row landing-description'>{section.description}</p>
+            </div>
           </div>
         </section>
       )

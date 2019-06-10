@@ -7,20 +7,40 @@ export default class LoginForm extends Component {
   //   onLoginSuccess: () => {}
   // }
 
-  state = { error: null }
+  // constructor(props) {
+  //   super(props);
+  //   this.userName = React.createRef();
+  //   this.password = React.createRef();
+  // }
+
+  state = {
+    error: null,
+    userName: '',
+    password: '',
+  }
 
   handleSubmitJwtAuth = ev => {
     ev.preventDefault()
     this.setState({ error: null })
-    const { user_name, password } = ev.target
+    // const { user_name, password } = ev.target
+    // const userName = this.userName.current.value
+    // const password = this.password.current.value
+    const userName = this.state.userName
+    const password = this.state.password
 
     AuthApiService.postLogin({
-      user_name: user_name.value,
-      password: password.value,
+      // user_name: user_name.value,
+      // password: password.value,
+      user_name: userName,
+      password: password
     })
       .then(res => {
-        user_name.value = ''
-        password.value = ''
+        // user_name.value = ''
+        // password.value = ''
+        // this.userName.current.value = ''
+        // this.password.current.value = ''
+        this.setState({userName: ''})
+        this.setState({password: ''})
         this.props.onLoginSuccess()
       })
       .catch(res => {
@@ -45,7 +65,11 @@ export default class LoginForm extends Component {
           <Input
             required
             name='user_name'
-            id='LoginForm__user_name'>
+            id='LoginForm__user_name'
+            // ref={this.userName}
+            value={this.state.userName}
+            onChange={e => this.setState({ userName: e.target.value })}
+            >
           </Input>
         </div>
         <div className='password'>
@@ -56,7 +80,11 @@ export default class LoginForm extends Component {
             required
             name='password'
             type='password'
-            id='LoginForm__password'>
+            id='LoginForm__password'
+            // ref={this.password}
+            value={this.state.password}
+            onChange={e => this.setState({ password: e.target.value })}
+            >
           </Input>
         </div>
         <Button type='submit'>

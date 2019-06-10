@@ -21,16 +21,16 @@ export default class Header extends Component {
       <div className='Header__logged-in nav-links'>
         <Link
           to='/publications' className='nav-links nav-col nav-a'>
-          Publications
+          <button className='nav-buttons'>Publications</button>
         </Link>
         <Link
           to='/dashboard' className='nav-links nav-col nav-a'>
-          My Dashboard
+          <button className='nav-buttons'>My Dashboard</button>
         </Link>
         <Link
           onClick={this.handleLogoutClick}
           to='/' className='nav-links nav-col nav-a'>
-          Logout
+          <button className='nav-buttons'>Logout</button>
         </Link>
       </div>
     )
@@ -41,11 +41,11 @@ export default class Header extends Component {
       <div className='Header__not-logged-in nav-links'>
         <Link
           to='/login' className='nav-links nav-col nav-a'>
-          Log in
+          <button className='nav-buttons'>Log in</button>
         </Link>
         <Link
           to='/register' className=' nav-linksnav-col nav-a'>
-          Register
+          <button className='nav-buttons'>Register</button>
         </Link>
       </div>
     )
@@ -55,7 +55,7 @@ export default class Header extends Component {
     return <>
       <nav className='Header nav-row' role='navigation'>
         <Link to='/' className={'nav-links nav-col'}>
-          <h3>BenriNote</h3>
+          <button className='nav-buttons'><h3 className='nav-buttons-home'>BenriNote</h3></button>
         </Link>
         {TokenService.hasAuthToken()
           ? this.renderLogoutLink()

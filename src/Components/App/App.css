@@ -30,12 +30,9 @@ body {
 button {
   font-size: 20px;
   margin: 10px;
-}
-
-@media only screen and (max-width: 600px) {
-  .col-1, .nav-col {
-    flex-basis: 100%;
-  }
+  border-color: var(--darkblue);
+  background-color: var(--white);
+  color: var(--darkblue)
 }
 
 .nav-container {
@@ -162,6 +159,7 @@ textarea {
 }
 
 .nav-links > a {
+  display: inline-block;
   color: var(--white);
   padding: 0px;
   margin: 0px;
@@ -171,11 +169,7 @@ textarea {
 }
 
 .nav-col {
-  /* display: flex;
-  flex-direction: column;
   justify-content: center;
-  flex-basis: 33%;
-  flex-basis: 1; */
   margin-left: 10px;
   padding-left: 10px;
   line-height: 0;
@@ -195,6 +189,11 @@ textarea {
 .nav-buttons-home {
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+nav.Header {
+  display: flex;
+  flex-direction: row;
 }
 
 .nav-row {
@@ -266,4 +265,15 @@ textarea {
 } */
 .landing-title-wrapper {
   margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 660px) {
+  /* .col-1, .nav-col {
+    flex: 0 0 100%;
+    flex-direction: column;
+    justify-content: center;
+  } */
+  nav.Header {
+    flex-direction: column;
+  }
 }

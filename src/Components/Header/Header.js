@@ -18,7 +18,7 @@ export default class Header extends Component {
 
   renderLogoutLink() {
     return (
-      <div className='Header__logged-in nav-links'>
+      <>
         <Link
           to='/publications' className='nav-links nav-col nav-a'>
           <button className='nav-buttons'>Publications</button>
@@ -32,13 +32,13 @@ export default class Header extends Component {
           to='/' className='nav-links nav-col nav-a'>
           <button className='nav-buttons'>Logout</button>
         </Link>
-      </div>
+      </>
     )
   }
 
   renderLoginLink() {
     return (
-      <div className='Header__not-logged-in nav-links'>
+      <>
         <Link
           to='/login' className='nav-links nav-col nav-a'>
           <button className='nav-buttons'>Log in</button>
@@ -47,13 +47,13 @@ export default class Header extends Component {
           to='/register' className=' nav-linksnav-col nav-a'>
           <button className='nav-buttons'>Register</button>
         </Link>
-      </div>
+      </>
     )
   }
 
   render() {
     return <>
-      <nav className='Header nav-row' role='navigation'>
+      <nav className='Header' role='navigation'>
         <Link to='/' className={'nav-links nav-col'}>
           <button className='nav-buttons'><h3 className='nav-buttons-home'>BenriNote</h3></button>
         </Link>

@@ -14,7 +14,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   color: var(--darkblue);
-  background-color: var(--charcoal);
+  background-color: var(--darkblue);
   text-align: center;
   line-height: 1.5;
 }
@@ -24,7 +24,9 @@ body {
 }
 
 .App_main {
-  background-color: var(--charcoal);
+  background-color: var(--darkblue);
+  margin-bottom: 100px;
+  z-index: 6;
 }
 
 button {
@@ -35,8 +37,12 @@ button {
   color: var(--darkblue)
 }
 
+button:disabled{
+  opacity: 0.3;
+}
+
 .nav-container {
-  background-color: #36454F;
+  background-color: var(--darkblue);
 }
 
 .App {
@@ -45,7 +51,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--white);
+  background-color: var(--darkblue);
 }
 
 .img-cover {
@@ -92,12 +98,36 @@ nav {
   left: 0;
   right: 0;
   z-index: 10;
+  border-bottom: 2px solid var(--white);
 }
 
+footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding-top: 10px;
+  border-top: 2px solid var(--white);
+  /* margin-top: 30px; */
+}
 
+h3 {
+  color: var(--darkblue);
+}
+
+.footer-link{
+  margin: 0px;
+}
+
+.footer-buttons{
+  margin: 0px;
+}
 
 header {
   padding: 12% 0;
+  padding-top: 30px;
+  color: var(--white);
 }
 
 section {
@@ -113,6 +143,12 @@ section {
 
 section:nth-child(even) {
   background-color: rgb(245, 245, 245);
+}
+
+.section-content-wrapper {
+  padding-left: 4vw;
+  padding-right: 4vw;
+  text-align: left;
 }
 
 .main-nav-elements {
@@ -189,6 +225,7 @@ textarea {
 .nav-buttons-home {
   margin-top: 0px;
   margin-bottom: 0px;
+  color: var(--white);
 }
 
 nav.Header {
@@ -219,16 +256,19 @@ nav.Header {
 }
 
 .landing-title {
-  color: var(--darkblue)
+  color: var(--darkblue);
+  background-color: var(--darkblue);
+  margin: 0;
 }
 
 .landing-header {
   z-index: 2;
-  width: 60%;
-  margin: 0 auto;
+  /* width: 60%; */
+  /* margin: 0 auto; */
   margin-bottom: 5px;
   padding: 5px;
   text-align: center;
+  /* font-size: 4vw; */
 }
 
 .landing-title-wrapper {
@@ -267,7 +307,39 @@ nav.Header {
   margin-bottom: 20px;
 }
 
-@media only screen and (max-width: 660px) {
+.RegistrationForm label, .LoginForm label {
+  margin-right: 5px;
+  color: var(--darkblue);
+}
+
+.login-wrapper, .signup-wrapper {
+  background-color: var(--white);
+  padding-bottom: 100px;
+}
+
+.login-wrapper h1, .signup-wrapper h1 {
+  color: var(--darkblue);
+  margin-bottom: 0;
+}
+
+.red {
+  color: red;
+}
+
+.hamburger-wrapper {
+  display: none;
+  /* padding: 10px; */
+  justify-content: right;
+  /* line-height: 0; */
+  font-size: 24px;
+  background-color: var(--darkblue);
+  border-color: var(--darkblue);
+  color: var(--white);
+  position: absolute;
+  right: 0px;
+}
+
+@media only screen and (max-width: 700px) {
   /* .col-1, .nav-col {
     flex: 0 0 100%;
     flex-direction: column;
@@ -275,5 +347,37 @@ nav.Header {
   } */
   nav.Header {
     flex-direction: column;
+  }
+  .nav-col {
+    margin-left: 0;
+    display: inline-block;
+  }
+  .nav-links{
+    justify-content: left;
+    width: 100%;
+  }
+  .nav-buttons{
+    /* position: absolute;
+    left: 0px; */
+    /* margin-right: 100px; */
+    float: left;
+  }
+  .hamburger-wrapper {
+    display: inline-block;
+    text-align: right;
+    /* width: 30%; */
+  }
+  .nav-a {
+    float: left;
+    justify-content: left;
+    width: 100%;
+    padding: 0;
+    margin-left: 15px;
+    margin-bottom: 6px;
+    border-left: 2px solid var(--white);
+    border-left: 90%;
+  }
+  .nav-hide {
+    display: none;
   }
 }

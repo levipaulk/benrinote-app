@@ -17,7 +17,7 @@ class SignUpPage extends Component {
   render() {
     return (
       <div className='signup-wrapper'>
-        <header role='banner'>
+        <header>
           <h1>Sign Up</h1>
         </header>
         <SignUpForm 

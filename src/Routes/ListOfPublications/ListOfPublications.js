@@ -46,7 +46,7 @@ class ListOfPublications extends Component {
     })
     return (
       <>
-        <header role='banner'>
+        <header>
           <h1>Publications</h1>
         </header>
         {publications}

@@ -73,7 +73,7 @@ class Publication extends React.Component {
     })
     return (
       <div className='landing-wrapper'>
-        <header role='banner'>
+        <header>
           <h1>{this.props.activePub.title}</h1>
           <img src={this.props.activePub.cover} alt={`${this.props.activePub.title}'s Cover`}/>
           <div>{this.props.activePub.authors}</div>

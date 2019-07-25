@@ -19,7 +19,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div className='login-wrapper'>
-        <header role='banner'>
+        <header>
           <h1>Login</h1>
         </header>
         <LoginForm 

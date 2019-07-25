@@ -5,10 +5,10 @@ export default class Footer extends Component {
 
   render() {
     return <>
-      <footer className='footer' role='navigation'>
-        <h3 className={'nav-links'}>
+      <footer className='footer'>
+        <h3 className={'nav-links footer-link'}>
           <Link to='/'>
-            <button className='nav-buttons'><h3 className='nav-buttons-home'>BenriNote</h3></button>
+            <button className='nav-buttons footer-buttons'><h3 className='nav-buttons-home'>BenriNote</h3></button>
           </Link>
         </h3>
       </footer>

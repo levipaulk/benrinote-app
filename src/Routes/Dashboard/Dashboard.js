@@ -29,7 +29,7 @@ class Dashboard extends Component {
     })
     return (
       <div className='dashboard-wrapper'>
-        <header role='banner'>
+        <header>
           <h1>{user.nickname ? `${user.nickname}'s Dashboard` : `${user.user_name}'s Dashboard`}</h1>
         </header>
         {publicationList}

@@ -78,7 +78,7 @@ class Landing extends Component {
     })
     return (
       <div className='landing-wrapper'>
-        <header role='banner' className={'hero-image'}>
+        <header className={'hero-image'}>
           <div className={'hero-text'}>
             <h1>BenriNote</h1>
             <h2>Spend less time searching and more time learning</h2>
